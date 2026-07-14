@@ -13,11 +13,11 @@ export const SetupModal: React.FC<SetupModalProps> = ({ onSubmit }) => {
         return saved ? parseInt(saved, 10) : 1;
     });
     
-    const [activeProvider, setActiveProvider] = useState<'gemini' | 'groq'>('gemini');
+    const [activeProvider, setActiveProvider] = useState<'gemini' | 'groq'>('groq');
 
     const [geminiKey, setGeminiKey] = useState(() => localStorage.getItem('setup_draft_gemini_key') || '');
     const [groqKey, setGroqKey] = useState(() => localStorage.getItem('setup_draft_groq_key') || '');
-    const [selectedModel, setSelectedModel] = useState(() => localStorage.getItem('setup_draft_model') || GEMINI_MODELS[0]);
+    const [selectedModel, setSelectedModel] = useState(() => localStorage.getItem('setup_draft_model') || GROQ_MODELS[0]);
 
     const [name, setName] = useState(() => localStorage.getItem('setup_draft_name') || '');
     const [subject, setSubject] = useState(() => localStorage.getItem('setup_draft_subject') || 'Toán');
@@ -110,21 +110,21 @@ export const SetupModal: React.FC<SetupModalProps> = ({ onSubmit }) => {
                                 <div className="flex bg-gray-100 p-1 rounded-xl">
                                     <button
                                         onClick={() => {
-                                            setActiveProvider('gemini');
-                                            if (!GEMINI_MODELS.includes(selectedModel)) setSelectedModel(GEMINI_MODELS[0]);
-                                        }}
-                                        className={`flex-1 py-2.5 px-4 rounded-lg font-medium text-sm transition-all flex items-center justify-center gap-2 ${activeProvider === 'gemini' ? 'bg-white text-teal-700 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
-                                    >
-                                        🤖 Gemini (Google)
-                                    </button>
-                                    <button
-                                        onClick={() => {
                                             setActiveProvider('groq');
                                             if (!GROQ_MODELS.includes(selectedModel)) setSelectedModel(GROQ_MODELS[0]);
                                         }}
                                         className={`flex-1 py-2.5 px-4 rounded-lg font-medium text-sm transition-all flex items-center justify-center gap-2 ${activeProvider === 'groq' ? 'bg-white text-purple-700 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
                                     >
                                         ⚡ Groq
+                                    </button>
+                                    <button
+                                        onClick={() => {
+                                            setActiveProvider('gemini');
+                                            if (!GEMINI_MODELS.includes(selectedModel)) setSelectedModel(GEMINI_MODELS[0]);
+                                        }}
+                                        className={`flex-1 py-2.5 px-4 rounded-lg font-medium text-sm transition-all flex items-center justify-center gap-2 ${activeProvider === 'gemini' ? 'bg-white text-teal-700 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+                                    >
+                                        🤖 Gemini (Google)
                                     </button>
                                 </div>
                             </div>

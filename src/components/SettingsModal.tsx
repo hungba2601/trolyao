@@ -109,17 +109,6 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, o
                         <div className="flex bg-gray-100 p-1 rounded-xl">
                             <button
                                 onClick={() => {
-                                    setActiveProvider('gemini');
-                                    if (isGroqModel(currentModel)) {
-                                        handleModelSelect('gemini-2.5-flash');
-                                    }
-                                }}
-                                className={`flex-1 py-2.5 px-4 rounded-lg font-medium text-sm transition-all flex items-center justify-center gap-2 ${activeProvider === 'gemini' ? 'bg-white text-teal-700 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
-                            >
-                                🤖 Gemini (Google)
-                            </button>
-                            <button
-                                onClick={() => {
                                     setActiveProvider('groq');
                                     if (!isGroqModel(currentModel)) {
                                         handleModelSelect('llama-3.1-8b-instant');
@@ -128,6 +117,17 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, o
                                 className={`flex-1 py-2.5 px-4 rounded-lg font-medium text-sm transition-all flex items-center justify-center gap-2 ${activeProvider === 'groq' ? 'bg-white text-purple-700 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
                             >
                                 ⚡ Groq
+                            </button>
+                            <button
+                                onClick={() => {
+                                    setActiveProvider('gemini');
+                                    if (isGroqModel(currentModel)) {
+                                        handleModelSelect('gemini-2.5-flash');
+                                    }
+                                }}
+                                className={`flex-1 py-2.5 px-4 rounded-lg font-medium text-sm transition-all flex items-center justify-center gap-2 ${activeProvider === 'gemini' ? 'bg-white text-teal-700 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+                            >
+                                🤖 Gemini (Google)
                             </button>
                         </div>
                     </div>
