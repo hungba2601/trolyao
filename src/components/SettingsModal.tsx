@@ -202,6 +202,22 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, o
                         ) : (
                             <>
                                 <h3 className="text-sm font-semibold text-gray-900 mb-3">⚡ Groq API Key</h3>
+                                <div className="mb-3 p-3 bg-purple-50 border border-purple-100 rounded-lg">
+                                    <div className="flex justify-between items-center mb-1">
+                                        <span className="text-xs font-semibold text-purple-800">🎁 API Groq free:</span>
+                                        <button 
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                navigator.clipboard.writeText('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');
+                                                alert('Đã copy API Key');
+                                            }}
+                                            className="text-xs bg-purple-200 text-purple-700 px-2 py-1 rounded hover:bg-purple-300 transition-colors"
+                                        >
+                                            Copy
+                                        </button>
+                                    </div>
+                                    <code className="text-[10px] text-purple-600 break-all block">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</code>
+                                </div>
                                 <input
                                     type="password"
                                     value={groqKey}
