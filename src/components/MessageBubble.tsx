@@ -57,7 +57,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message, onBookmar
             </div>
 
             {/* Content Container */}
-            <div className={`flex flex-col max-w-[85%] sm:max-w-3xl ${isUser ? 'items-end' : 'items-start'}`}>
+            <div className={`flex flex-col min-w-0 max-w-[calc(100%-2.5rem)] sm:max-w-3xl ${isUser ? 'items-end' : 'items-start'}`}>
                 {/* Header */}
                 <div className={`flex items-center gap-2 mb-1.5 px-1 ${isUser ? 'flex-row-reverse' : 'flex-row'}`}>
                     <span className={`text-sm font-bold ${isUser ? 'text-teal-900' : 'text-slate-900'}`}>
@@ -92,10 +92,10 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message, onBookmar
 
                 {/* Bubble Box */}
                 <div className={`
-                    p-3.5 sm:p-5 rounded-2xl shadow-sm border border-slate-100/50 relative
+                    p-3.5 sm:p-5 rounded-2xl shadow-sm border border-slate-100/50 relative w-full
                     ${isUser ? 'bg-teal-50 rounded-tr-sm' : 'bg-white rounded-tl-sm'}
                 `}>
-                    <div className={`prose prose-slate prose-sm max-w-none text-slate-700 leading-relaxed overflow-x-auto ${isUser ? 'whitespace-pre-wrap font-medium text-slate-800' : ''
+                    <div className={`prose prose-slate prose-sm max-w-none text-slate-700 leading-relaxed overflow-x-auto break-words ${isUser ? 'whitespace-pre-wrap font-medium text-slate-800' : ''
                         }`}>
                         {isUser ? (
                             message.text
