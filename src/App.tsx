@@ -531,7 +531,7 @@ function App() {
             <select
               value={selectedModel}
               onChange={(e) => handleModelChange(e.target.value)}
-              className="bg-gray-100 border border-gray-200 text-gray-700 text-[10px] sm:text-xs font-medium rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-full py-1.5 px-1.5 sm:px-2 outline-none max-w-[120px] sm:max-w-[180px] truncate shadow-sm cursor-pointer"
+              className="bg-gray-100 border border-gray-200 text-gray-700 text-[10px] sm:text-xs font-medium rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-full py-1.5 px-1.5 sm:px-2 outline-none max-w-[85px] sm:max-w-[180px] truncate shadow-sm cursor-pointer"
             >
               {getAvailableModels().map(model => {
                 let displayName = model;
@@ -656,7 +656,7 @@ function App() {
         {/* Dark Mode Toggle */}
         <button
           onClick={handleToggleDark}
-          className="p-1.5 sm:p-2 rounded-lg hover:bg-gray-100 transition-colors text-gray-500 hover:text-gray-700 shrink-0 hidden sm:block"
+          className="p-1.5 sm:p-2 rounded-lg hover:bg-gray-100 transition-colors text-gray-500 hover:text-gray-700 shrink-0"
           title={darkMode ? 'Chế độ sáng (Ctrl+D)' : 'Chế độ tối (Ctrl+D)'}
         >
           {darkMode ? <Sun size={18} /> : <Moon size={18} />}
