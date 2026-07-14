@@ -47,7 +47,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message, onBookmar
     };
 
     return (
-        <div className={`flex gap-3 px-4 py-3 sm:px-5 sm:py-4 ${isUser ? 'flex-row-reverse' : 'flex-row'} group`}>
+        <div className={`flex gap-2 sm:gap-3 px-1 sm:px-4 py-3 sm:py-4 ${isUser ? 'flex-row-reverse' : 'flex-row'} group`}>
             {/* Avatar */}
             <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 shadow-sm mt-1 ${isUser
                 ? 'bg-gradient-to-br from-teal-500 to-cyan-600 text-white'
@@ -57,7 +57,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message, onBookmar
             </div>
 
             {/* Content Container */}
-            <div className={`flex flex-col min-w-0 max-w-[calc(100%-2.5rem)] sm:max-w-3xl ${isUser ? 'items-end' : 'items-start'}`}>
+            <div className={`flex flex-col min-w-0 flex-1 max-w-[92%] sm:max-w-3xl ${isUser ? 'items-end' : 'items-start'}`}>
                 {/* Header */}
                 <div className={`flex items-center gap-2 mb-1.5 px-1 ${isUser ? 'flex-row-reverse' : 'flex-row'}`}>
                     <span className={`text-sm font-bold ${isUser ? 'text-teal-900' : 'text-slate-900'}`}>
