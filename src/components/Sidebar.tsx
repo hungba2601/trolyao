@@ -104,7 +104,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                             {profile?.subject ? `${profile.subject} - ${profile.school_level}` : 'Trực tuyến'}
                         </p>
                     </div>
-                    <div className="flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="flex flex-col gap-1">
                         <button
                             onClick={onOpenSettings}
                             className="p-1.5 text-slate-400 hover:text-teal-600 hover:bg-white rounded-lg transition-all shadow-sm"
