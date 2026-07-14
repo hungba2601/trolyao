@@ -233,8 +233,10 @@ function App() {
     });
   }, [selectedDocIds, currentChatId, chatHistory.length]);
 
-  const handleSetupComplete = (geminiKey: string, groqKey: string, newProfile: TeacherProfile) => {
+  const handleSetupComplete = (geminiKey: string, groqKey: string, newProfile: TeacherProfile, selectedModel: string) => {
     setApiKeys(geminiKey, groqKey);
+    setSelectedModel(selectedModel);
+    setSelectedModelState(selectedModel);
     saveProfileService(newProfile);
     setProfile(newProfile);
     setShowSetup(false);
@@ -513,31 +515,33 @@ function App() {
         </button>
 
         {/* Model Selector */}
-        <div className="flex items-center ml-2 sm:ml-4 shrink-0">
-          <select
-            value={selectedModel}
-            onChange={(e) => handleModelChange(e.target.value)}
-            className="bg-gray-100 border border-gray-200 text-gray-700 text-[11px] sm:text-xs font-medium rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-full py-1.5 px-2 outline-none max-w-[100px] sm:max-w-[180px] truncate shadow-sm cursor-pointer"
-          >
-            {getAvailableModels().map(model => {
-              let displayName = model;
-              if (model.includes('gemini')) {
-                displayName = model.replace('gemini-', 'Gemini ').replace('-preview', '');
-              } else if (model.includes('llama')) {
-                displayName = model.replace('llama-', 'Llama ').replace('-versatile', '').replace('-instant', '');
-              } else if (model.includes('mixtral')) {
-                displayName = 'Mixtral 8x7B';
-              } else if (model.includes('gemma')) {
-                displayName = 'Gemma 2 9B';
-              }
-              return (
-                <option key={model} value={model}>
-                  {displayName}
-                </option>
-              );
-            })}
-          </select>
-        </div>
+        {getAvailableModels().length > 0 && (
+          <div className="flex items-center ml-2 sm:ml-4 shrink-0">
+            <select
+              value={selectedModel}
+              onChange={(e) => handleModelChange(e.target.value)}
+              className="bg-gray-100 border border-gray-200 text-gray-700 text-[11px] sm:text-xs font-medium rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-full py-1.5 px-2 outline-none max-w-[100px] sm:max-w-[180px] truncate shadow-sm cursor-pointer"
+            >
+              {getAvailableModels().map(model => {
+                let displayName = model;
+                if (model.includes('gemini')) {
+                  displayName = model.replace('gemini-', 'Gemini ').replace('-preview', '');
+                } else if (model.includes('llama')) {
+                  displayName = model.replace('llama-', 'Llama ').replace('-versatile', '').replace('-instant', '');
+                } else if (model.includes('mixtral')) {
+                  displayName = 'Mixtral 8x7B';
+                } else if (model.includes('gemma')) {
+                  displayName = 'Gemma 2 9B';
+                }
+                return (
+                  <option key={model} value={model}>
+                    {displayName}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+        )}
 
         <div className="flex-1" />
 
