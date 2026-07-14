@@ -15,8 +15,8 @@ export const SetupModal: React.FC<SetupModalProps> = ({ onSubmit }) => {
     
     const [activeProvider, setActiveProvider] = useState<'gemini' | 'groq'>('groq');
 
-    const [geminiKey, setGeminiKey] = useState(() => localStorage.getItem('setup_draft_gemini_key') || '');
-    const [groqKey, setGroqKey] = useState(() => localStorage.getItem('setup_draft_groq_key') || '');
+    const [geminiKey, setGeminiKey] = useState(() => localStorage.getItem('setup_draft_gemini_key') || localStorage.getItem('gemini_api_key') || '');
+    const [groqKey, setGroqKey] = useState(() => localStorage.getItem('setup_draft_groq_key') || localStorage.getItem('groq_api_key') || '');
     const [selectedModel, setSelectedModel] = useState(() => localStorage.getItem('setup_draft_model') || GROQ_MODELS[0]);
 
     const [name, setName] = useState(() => localStorage.getItem('setup_draft_name') || '');
