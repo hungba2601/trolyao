@@ -23,7 +23,8 @@ import {
 } from './services/chatStorage';
 import { downloadMarkdown, downloadWord, downloadPdf } from './services/exportChat';
 import type { TeacherProfile, ChatSession, ChatMessage } from './types';
-import { Menu, Settings, Key, Cpu, FileText, Download, Plus, Moon, Sun, Globe } from 'lucide-react';
+import { Menu, Settings, Key, Cpu, FileText, Download, Plus, Moon, Sun, Globe, Smartphone } from 'lucide-react';
+import InstallPwaModal from './components/InstallPwaModal';
 
 
 
@@ -98,6 +99,8 @@ function App() {
   const [showLangMenu, setShowLangMenu] = useState(false);
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [showWelcome, setShowWelcome] = useState(true);
+  const [showInstallModal, setShowInstallModal] = useState(false);
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
 
   // Initialize dark mode on mount
   useEffect(() => {
@@ -107,6 +110,29 @@ function App() {
       setTimeout(() => setShowOnboarding(true), 1000);
     }
   }, []);
+
+  // PWA Install Prompt
+  useEffect(() => {
+    const handleBeforeInstallPrompt = (e: Event) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+    };
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    return () => window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') {
+        setDeferredPrompt(null);
+      }
+    } else {
+      setShowInstallModal(true);
+    }
+  };
 
   const handleNewChat = useCallback(() => {
     // Save current chat before switching
@@ -636,6 +662,16 @@ function App() {
           {darkMode ? <Sun size={18} /> : <Moon size={18} />}
         </button>
 
+        {/* Install App Button */}
+        <button
+          onClick={handleInstallClick}
+          className="flex items-center gap-1.5 p-1.5 sm:px-3 sm:py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg transition-colors shrink-0"
+          title="Cài đặt ứng dụng"
+        >
+          <Smartphone size={16} />
+          <span className="text-xs font-medium hidden sm:inline whitespace-nowrap">Cài App</span>
+        </button>
+
         {/* Settings / API Key Button */}
         <button
           onClick={() => setShowSettings(true)}
@@ -834,6 +870,11 @@ function App() {
       {showOnboarding && (
         <OnboardingTour onComplete={() => setShowOnboarding(false)} />
       )}
+
+      <InstallPwaModal
+        isOpen={showInstallModal}
+        onClose={() => setShowInstallModal(false)}
+      />
     </div>
   );
 }
