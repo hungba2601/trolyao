@@ -1,0 +1,7 @@
+{
+  "name": "Trợ lý AI dành cho Giáo viên",
+  "description": "Ứng dụng Trợ lý AI thông minh hỗ trợ giáo viên soạn bài, quản lý tài liệu và tư vấn giáo dục.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
