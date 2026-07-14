@@ -164,10 +164,10 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message, onBookmar
 
                 {/* Actions */}
                 {!isUser && (
-                    <div className="flex items-center gap-2 pt-2 px-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                    <div className="flex items-center gap-2 pt-2 px-1 transition-opacity duration-200">
                         <button
                             onClick={handleCopy}
-                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-slate-500 hover:bg-white hover:text-teal-600 hover:shadow-sm border border-transparent hover:border-slate-200 transition-all"
+                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-slate-600 bg-white shadow-sm border border-slate-200 hover:text-teal-600 hover:border-teal-200 transition-all"
                             title="Sao chép (giữ nguyên LaTeX)"
                         >
                             {copied ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} />}
