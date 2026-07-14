@@ -665,7 +665,7 @@ function App() {
         {/* Install App Button */}
         <button
           onClick={handleInstallClick}
-          className="flex items-center gap-1 sm:gap-1.5 p-1.5 sm:px-3 sm:py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg transition-colors shrink-0 border border-blue-100"
+          className="flex items-center gap-1 sm:gap-1.5 p-1.5 sm:px-3 sm:py-1.5 !bg-purple-600 hover:!bg-purple-700 !text-white rounded-lg transition-colors shrink-0 shadow-sm active:scale-95 border-none"
           title="Cài đặt ứng dụng"
         >
           <Smartphone size={14} className="sm:w-4 sm:h-4" />
