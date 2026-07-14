@@ -182,9 +182,9 @@ function App() {
     const groqKey = getGroqApiKey();
     const userProfile = getTeacherProfile();
 
-    if (!geminiKey && !groqKey) {
+    if ((!geminiKey && !groqKey) || !userProfile) {
       setShowSetup(true);
-    } else if (userProfile) {
+    } else {
       setProfile(userProfile);
 
       // Load persisted sessions
