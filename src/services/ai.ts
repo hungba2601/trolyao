@@ -19,8 +19,8 @@ export const setApiKeys = (geminiKey: string, groqKey: string) => {
 export const getGeminiApiKey = () => localStorage.getItem('gemini_api_key') || '';
 export const getGroqApiKey = () => localStorage.getItem('groq_api_key') || '';
 
-const GEMINI_MODELS = ['gemini-2.5-flash', 'gemini-3.5-flash'];
-const GROQ_MODELS = [
+export const GEMINI_MODELS = ['gemini-2.5-flash', 'gemini-3.5-flash'];
+export const GROQ_MODELS = [
     'llama-3.1-8b-instant',
     'llama-3.3-70b-versatile',
     'mixtral-8x7b-32768',
