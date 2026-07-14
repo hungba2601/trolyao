@@ -25,7 +25,7 @@ import { downloadMarkdown, downloadWord, downloadPdf } from './services/exportCh
 import type { TeacherProfile, ChatSession, ChatMessage } from './types';
 import { Menu, Settings, Key, Cpu, FileText, Download, Plus, Moon, Sun, Globe } from 'lucide-react';
 
-import { RECOMMENDED_AI_TOOLS } from './data/aiTools';
+
 
 // AI language options
 const AI_LANGUAGES: { code: string; label: string; flag: string }[] = [
@@ -480,31 +480,32 @@ function App() {
       {showWelcome && <WelcomeDialog onStart={() => setShowWelcome(false)} />}
 
       {/* === PERSISTENT HEADER === */}
-      <header className="h-14 bg-white border-b border-gray-200 flex items-center px-4 gap-3 shrink-0 z-30">
-        <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-2 -ml-2 text-gray-600 hover:bg-gray-100 rounded-lg md:hidden">
+      <header className="h-14 bg-white border-b border-gray-200 flex items-center px-2 sm:px-4 gap-1.5 sm:gap-3 shrink-0 z-30">
+        <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-1.5 sm:p-2 sm:-ml-2 text-gray-600 hover:bg-gray-100 rounded-lg md:hidden shrink-0">
           <Menu size={22} />
         </button>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
           <Cpu size={20} className="text-teal-600" />
-          <span className="font-bold text-gray-900">Trợ lý GV</span>
+          <span className="font-bold text-gray-900 text-sm sm:text-base hidden sm:inline whitespace-nowrap">Trợ lý GV</span>
         </div>
 
         {/* New Chat Button - Always visible */}
         <button
           onClick={handleNewChat}
-          className="flex items-center gap-1.5 px-3 py-1.5 bg-teal-600 hover:bg-teal-700 text-white rounded-lg transition-colors text-xs font-medium shadow-sm active:scale-95"
+          className="flex items-center gap-1.5 p-1.5 sm:px-3 sm:py-1.5 bg-teal-600 hover:bg-teal-700 text-white rounded-lg transition-colors text-xs font-medium shadow-sm active:scale-95 shrink-0"
+          title="Tạo phiên trò chuyện mới"
         >
-          <Plus size={15} />
+          <Plus size={16} />
           <span className="hidden sm:inline">Mới</span>
         </button>
 
         {/* Model Selector */}
         {getAvailableModels().length > 0 && (
-          <div className="flex items-center ml-2 sm:ml-4 shrink-0">
+          <div className="flex items-center ml-0.5 sm:ml-2 shrink-0">
             <select
               value={selectedModel}
               onChange={(e) => handleModelChange(e.target.value)}
-              className="bg-gray-100 border border-gray-200 text-gray-700 text-[11px] sm:text-xs font-medium rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-full py-1.5 px-2 outline-none max-w-[100px] sm:max-w-[180px] truncate shadow-sm cursor-pointer"
+              className="bg-gray-100 border border-gray-200 text-gray-700 text-[10px] sm:text-xs font-medium rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-full py-1.5 px-1.5 sm:px-2 outline-none max-w-[120px] sm:max-w-[180px] truncate shadow-sm cursor-pointer"
             >
               {getAvailableModels().map(model => {
                 let displayName = model;
@@ -531,13 +532,14 @@ function App() {
 
         {/* Export Button */}
         {messages.length > 0 && (
-          <div className="relative">
+          <div className="relative shrink-0">
             <button
               onClick={() => setShowExportMenu(!showExportMenu)}
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-teal-50 hover:bg-teal-100 text-teal-700 rounded-lg transition-colors text-xs font-medium"
+              className="flex items-center gap-1.5 p-1.5 sm:px-3 sm:py-1.5 bg-teal-50 hover:bg-teal-100 text-teal-700 rounded-lg transition-colors text-xs font-medium"
+              title="Tải xuống nội dung"
             >
-              <Download size={15} />
-              <span className="hidden sm:inline">Tải xuống</span>
+              <Download size={16} />
+              <span className="hidden lg:inline">Tải xuống</span>
             </button>
             {showExportMenu && (
               <>
@@ -580,10 +582,10 @@ function App() {
         )}
 
         {/* AI Language Selector */}
-        <div className="relative hidden sm:block">
+        <div className="relative hidden sm:block shrink-0">
           <button
             onClick={() => setShowLangMenu(!showLangMenu)}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 bg-purple-50 hover:bg-purple-100 text-purple-700 rounded-lg transition-colors text-xs font-medium"
+            className="flex items-center gap-1.5 p-1.5 sm:px-2.5 sm:py-1.5 bg-purple-50 hover:bg-purple-100 text-purple-700 rounded-lg transition-colors text-xs font-medium"
             title="Ngôn ngữ AI trả lời"
           >
             <Globe size={14} />
@@ -613,12 +615,13 @@ function App() {
         {/* Documents Button */}
         <button
           onClick={() => setShowDocManager(true)}
-          className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 rounded-lg transition-colors text-xs font-medium"
+          className="flex items-center gap-1.5 p-1.5 sm:px-3 sm:py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 rounded-lg transition-colors text-xs font-medium shrink-0 relative"
+          title="Quản lý Tài liệu"
         >
-          <FileText size={15} />
-          <span className="hidden sm:inline">Tài liệu</span>
+          <FileText size={16} />
+          <span className="hidden lg:inline">Tài liệu</span>
           {selectedDocIds.length > 0 && (
-            <span className="bg-emerald-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">
+            <span className="absolute -top-1.5 -right-1.5 sm:static sm:top-auto sm:right-auto bg-emerald-600 text-white text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[16px] text-center">
               {selectedDocIds.length}
             </span>
           )}
@@ -627,7 +630,7 @@ function App() {
         {/* Dark Mode Toggle */}
         <button
           onClick={handleToggleDark}
-          className="p-2 rounded-lg hover:bg-gray-100 transition-colors text-gray-500 hover:text-gray-700"
+          className="p-1.5 sm:p-2 rounded-lg hover:bg-gray-100 transition-colors text-gray-500 hover:text-gray-700 shrink-0 hidden sm:block"
           title={darkMode ? 'Chế độ sáng (Ctrl+D)' : 'Chế độ tối (Ctrl+D)'}
         >
           {darkMode ? <Sun size={18} /> : <Moon size={18} />}
@@ -636,13 +639,14 @@ function App() {
         {/* Settings / API Key Button */}
         <button
           onClick={() => setShowSettings(true)}
-          className="flex items-center gap-2 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors group"
+          className="flex items-center gap-1.5 p-1.5 sm:px-3 sm:py-1.5 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors group shrink-0"
+          title="Cài đặt hệ thống"
         >
           <Key size={16} className={`${(!getGeminiApiKey() && !getGroqApiKey()) ? 'text-red-500 animate-pulse' : 'text-gray-500 group-hover:text-teal-600'}`} />
           {(!getGeminiApiKey() && !getGroqApiKey()) && (
-            <span className="text-xs font-medium text-red-500 hidden sm:inline">Lấy API key để sử dụng app</span>
+            <span className="text-xs font-medium text-red-500 hidden sm:inline whitespace-nowrap">Lấy API key</span>
           )}
-          <Settings size={14} className="text-gray-400" />
+          <Settings size={16} className="text-gray-400 hidden sm:block" />
         </button>
       </header>
 
