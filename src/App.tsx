@@ -265,6 +265,13 @@ function App() {
     saveMessages(initId, [welcomeMsg]);
   };
 
+  const handleLogout = () => {
+    if (window.confirm("Bạn có chắc chắn muốn thoát và xóa hồ sơ hiện tại để làm lại từ đầu không?")) {
+      localStorage.removeItem('teacher_profile');
+      window.location.reload();
+    }
+  };
+
   const handleModelChange = (model: string) => {
     setSelectedModel(model);
     setSelectedModelState(model);
@@ -716,6 +723,7 @@ function App() {
             onFolderFilterChange={setFolderFilter}
             onMoveToFolder={handleMoveToFolder}
             onTogglePin={handleTogglePin}
+            onLogout={handleLogout}
           />
         </div>
 
@@ -758,6 +766,7 @@ function App() {
               onFolderFilterChange={setFolderFilter}
               onMoveToFolder={handleMoveToFolder}
               onTogglePin={handleTogglePin}
+              onLogout={handleLogout}
             />
           </div>
         )}
