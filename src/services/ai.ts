@@ -40,7 +40,16 @@ export const setSelectedModel = (model: string) => {
     localStorage.setItem('selected_model', model);
 };
 
-export const getAvailableModels = () => MODELS;
+export const getAvailableModels = () => {
+    const models: string[] = [];
+    if (getGeminiApiKey()) {
+        models.push(...GEMINI_MODELS);
+    }
+    if (getGroqApiKey()) {
+        models.push(...GROQ_MODELS);
+    }
+    return models;
+};
 export const isGroqModel = (model: string) => GROQ_MODELS.includes(model);
 
 const callGroqAPIStream = async (model: string, history: { role: string; parts: { text: string }[] }[], systemInstruction: string, onChunk: (text: string) => void) => {
