@@ -1,13 +1,34 @@
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
 import remarkGfm from 'remark-gfm';
 import rehypeKatex from 'rehype-katex';
 import 'katex/dist/katex.min.css';
-import { Bot, User, Copy, ThumbsUp, ThumbsDown, Check, Star, RefreshCw } from 'lucide-react';
+import { Bot, User, Copy, ThumbsUp, ThumbsDown, Check, Star, RefreshCw, Download } from 'lucide-react';
 import type { ChatMessage } from '../types';
 import { isBookmarked } from '../services/chatStorage';
+import { exportHtmlTableToWord } from '../services/exportTable';
+
+const TableWithExport = ({ children, ...props }: React.ComponentPropsWithoutRef<'table'>) => {
+    const tableRef = useRef<HTMLTableElement>(null);
+    return (
+        <div className="overflow-x-auto my-5 rounded-xl border border-slate-200 shadow-sm relative group/table mt-8">
+            <div className="absolute -top-10 right-0 opacity-0 group-hover/table:opacity-100 transition-opacity z-10">
+                <button
+                    onClick={() => exportHtmlTableToWord(tableRef.current)}
+                    className="flex items-center gap-1.5 px-3 py-1.5 bg-teal-600 text-white rounded-lg text-xs font-medium shadow-md hover:bg-teal-700 transition-colors"
+                    title="Tải bảng này về Word"
+                >
+                    <Download size={14} /> Tải Word có Bảng
+                </button>
+            </div>
+            <table ref={tableRef} className="min-w-full divide-y divide-slate-200 text-sm" {...props}>
+                {children}
+            </table>
+        </div>
+    );
+};
 
 interface MessageBubbleProps {
     message: ChatMessage;
@@ -112,11 +133,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message, onBookmar
                                     li: ({ ...props }) => <li className="mb-1 pl-1" {...props} />,
                                     p: ({ ...props }) => <p className="mb-4 last:mb-0" {...props} />,
                                     strong: ({ ...props }) => <strong className="font-bold text-slate-900" {...props} />,
-                                    table: ({ ...props }) => (
-                                        <div className="overflow-x-auto my-5 rounded-xl border border-slate-200 shadow-sm">
-                                            <table className="min-w-full divide-y divide-slate-200 text-sm" {...props} />
-                                        </div>
-                                    ),
+                                    table: TableWithExport,
                                     thead: ({ ...props }) => <thead className="bg-slate-50 text-slate-700" {...props} />,
                                     tbody: ({ ...props }) => <tbody className="bg-white divide-y divide-slate-100" {...props} />,
                                     tr: ({ ...props }) => <tr className="hover:bg-teal-50/30 transition-colors" {...props} />,
