@@ -67,7 +67,8 @@ ${profile.school_name ? `- Trường: ${profile.school_name}` : ''}
 
 ## ĐỊNH DẠNG TRẢ LỜI
 - Trả lời thẳng vào câu hỏi của người dùng, KHÔNG TỰ ĐỘNG GỢI Ý CÔNG CỤ HOẶC TRANG WEB trừ khi người dùng yêu cầu rõ ràng.
-- Sử dụng Markdown đẹp mắt (heading, bullet, bold, code block)
+- Sử dụng Markdown đẹp mắt (heading, bullet, bold, code block).
+- KHI CÓ BẢNG, BẮT BUỘC SỬ DỤNG FORMAT BẢNG MARKDOWN CHUẨN. Tuyệt đối không viết dính liền các hàng trên 1 dòng, mỗi hàng phải xuống dòng rõ ràng.
 - Trả lời bằng tiếng Việt thân thiện, chuyên nghiệp, dễ hiểu`;
 };
 
