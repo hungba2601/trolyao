@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import type { TeacherProfile } from '../types';
-import { ExternalLink, Key, Sparkles, User } from 'lucide-react';
+import { ExternalLink, Key, Sparkles, User, ChevronDown } from 'lucide-react';
+import { GEMINI_MODELS, GROQ_MODELS } from '../services/ai';
 
 interface SetupModalProps {
-    onSubmit: (geminiKey: string, groqKey: string, profile: TeacherProfile) => void;
+    onSubmit: (geminiKey: string, groqKey: string, profile: TeacherProfile, selectedModel: string) => void;
 }
 
 export const SetupModal: React.FC<SetupModalProps> = ({ onSubmit }) => {
@@ -16,6 +17,7 @@ export const SetupModal: React.FC<SetupModalProps> = ({ onSubmit }) => {
 
     const [geminiKey, setGeminiKey] = useState(() => localStorage.getItem('setup_draft_gemini_key') || '');
     const [groqKey, setGroqKey] = useState(() => localStorage.getItem('setup_draft_groq_key') || '');
+    const [selectedModel, setSelectedModel] = useState(() => localStorage.getItem('setup_draft_model') || GEMINI_MODELS[0]);
 
     const [name, setName] = useState(() => localStorage.getItem('setup_draft_name') || '');
     const [subject, setSubject] = useState(() => localStorage.getItem('setup_draft_subject') || 'Toán');
@@ -27,16 +29,18 @@ export const SetupModal: React.FC<SetupModalProps> = ({ onSubmit }) => {
         localStorage.setItem('setup_draft_step', step.toString());
         localStorage.setItem('setup_draft_gemini_key', geminiKey);
         localStorage.setItem('setup_draft_groq_key', groqKey);
+        localStorage.setItem('setup_draft_model', selectedModel);
         localStorage.setItem('setup_draft_name', name);
         localStorage.setItem('setup_draft_subject', subject);
         localStorage.setItem('setup_draft_level', schoolLevel);
         localStorage.setItem('setup_draft_school', schoolName);
-    }, [step, geminiKey, groqKey, name, subject, schoolLevel, schoolName]);
+    }, [step, geminiKey, groqKey, selectedModel, name, subject, schoolLevel, schoolName]);
 
     const clearDrafts = () => {
         localStorage.removeItem('setup_draft_step');
         localStorage.removeItem('setup_draft_gemini_key');
         localStorage.removeItem('setup_draft_groq_key');
+        localStorage.removeItem('setup_draft_model');
         localStorage.removeItem('setup_draft_name');
         localStorage.removeItem('setup_draft_subject');
         localStorage.removeItem('setup_draft_level');
@@ -49,6 +53,14 @@ export const SetupModal: React.FC<SetupModalProps> = ({ onSubmit }) => {
                 alert('Vui lòng nhập ít nhất 1 API Key (Gemini hoặc Groq) để sử dụng app');
                 return;
             }
+            if (activeProvider === 'gemini' && !geminiKey) {
+                alert('Bạn đang chọn Gemini nhưng chưa nhập API Key cho Gemini');
+                return;
+            }
+            if (activeProvider === 'groq' && !groqKey) {
+                alert('Bạn đang chọn Groq nhưng chưa nhập API Key cho Groq');
+                return;
+            }
             setStep(2);
         } else {
             if (name) {
@@ -58,11 +70,19 @@ export const SetupModal: React.FC<SetupModalProps> = ({ onSubmit }) => {
                     subject,
                     school_level: schoolLevel,
                     school_name: schoolName
-                });
+                }, selectedModel);
             } else {
                 alert('Vui lòng nhập tên của bạn');
             }
         }
+    };
+
+    const getDisplayName = (model: string) => {
+        if (model.includes('gemini')) return model.replace('gemini-', 'Gemini ').replace('-preview', '');
+        if (model.includes('llama')) return model.replace('llama-', 'Llama ').replace('-versatile', '').replace('-instant', '');
+        if (model.includes('mixtral')) return 'Mixtral 8x7B';
+        if (model.includes('gemma')) return 'Gemma 2 9B';
+        return model;
     };
 
     return (
@@ -89,13 +109,19 @@ export const SetupModal: React.FC<SetupModalProps> = ({ onSubmit }) => {
                             <div>
                                 <div className="flex bg-gray-100 p-1 rounded-xl">
                                     <button
-                                        onClick={() => setActiveProvider('gemini')}
+                                        onClick={() => {
+                                            setActiveProvider('gemini');
+                                            if (!GEMINI_MODELS.includes(selectedModel)) setSelectedModel(GEMINI_MODELS[0]);
+                                        }}
                                         className={`flex-1 py-2.5 px-4 rounded-lg font-medium text-sm transition-all flex items-center justify-center gap-2 ${activeProvider === 'gemini' ? 'bg-white text-teal-700 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
                                     >
                                         🤖 Gemini (Google)
                                     </button>
                                     <button
-                                        onClick={() => setActiveProvider('groq')}
+                                        onClick={() => {
+                                            setActiveProvider('groq');
+                                            if (!GROQ_MODELS.includes(selectedModel)) setSelectedModel(GROQ_MODELS[0]);
+                                        }}
                                         className={`flex-1 py-2.5 px-4 rounded-lg font-medium text-sm transition-all flex items-center justify-center gap-2 ${activeProvider === 'groq' ? 'bg-white text-purple-700 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
                                     >
                                         ⚡ Groq
@@ -103,14 +129,14 @@ export const SetupModal: React.FC<SetupModalProps> = ({ onSubmit }) => {
                                 </div>
                             </div>
 
-                            {/* === KEY INPUT === */}
+                            {/* === KEY & MODEL INPUT === */}
                             <div className="border border-gray-200 rounded-xl overflow-hidden">
                                 {activeProvider === 'gemini' ? (
                                     <>
                                         <div className="px-4 py-3 bg-gray-50 border-b border-gray-200 flex items-center gap-2">
-                                            <span className="text-sm font-semibold text-gray-700">🔑 Gemini API Key</span>
+                                            <span className="text-sm font-semibold text-gray-700">🔑 Gemini API Key & Model</span>
                                         </div>
-                                        <div className="p-4 space-y-3">
+                                        <div className="p-4 space-y-4">
                                             <div>
                                                 <input
                                                     type="password"
@@ -119,8 +145,7 @@ export const SetupModal: React.FC<SetupModalProps> = ({ onSubmit }) => {
                                                     className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
                                                     placeholder="AIza..."
                                                 />
-                                                <div className="flex items-center justify-between mt-2">
-                                                    <p className="text-xs text-gray-500">Dành cho model Gemini</p>
+                                                <div className="flex items-center justify-end mt-2">
                                                     <a
                                                         href="https://aistudio.google.com/api-keys"
                                                         target="_blank"
@@ -131,14 +156,29 @@ export const SetupModal: React.FC<SetupModalProps> = ({ onSubmit }) => {
                                                     </a>
                                                 </div>
                                             </div>
+                                            <div>
+                                                <label className="block text-xs font-medium text-gray-500 mb-1.5">Chọn Model mặc định</label>
+                                                <div className="relative">
+                                                    <select
+                                                        value={selectedModel}
+                                                        onChange={(e) => setSelectedModel(e.target.value)}
+                                                        className="w-full appearance-none px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-sm font-medium text-gray-700 cursor-pointer outline-none"
+                                                    >
+                                                        {GEMINI_MODELS.map(model => (
+                                                            <option key={model} value={model}>{getDisplayName(model)}</option>
+                                                        ))}
+                                                    </select>
+                                                    <ChevronDown size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" />
+                                                </div>
+                                            </div>
                                         </div>
                                     </>
                                 ) : (
                                     <>
                                         <div className="px-4 py-3 bg-gray-50 border-b border-gray-200 flex items-center gap-2">
-                                            <span className="text-sm font-semibold text-gray-700">⚡ Groq API Key</span>
+                                            <span className="text-sm font-semibold text-gray-700">⚡ Groq API Key & Model</span>
                                         </div>
-                                        <div className="p-4 space-y-3">
+                                        <div className="p-4 space-y-4">
                                             <div>
                                                 <input
                                                     type="password"
@@ -147,8 +187,7 @@ export const SetupModal: React.FC<SetupModalProps> = ({ onSubmit }) => {
                                                     className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                                                     placeholder="gsk_..."
                                                 />
-                                                <div className="flex items-center justify-between mt-2">
-                                                    <p className="text-xs text-gray-500">Dành cho model Llama, Mixtral</p>
+                                                <div className="flex items-center justify-end mt-2">
                                                     <a
                                                         href="https://console.groq.com/keys"
                                                         target="_blank"
@@ -157,6 +196,21 @@ export const SetupModal: React.FC<SetupModalProps> = ({ onSubmit }) => {
                                                     >
                                                         <ExternalLink size={11} /> Lấy key Groq
                                                     </a>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <label className="block text-xs font-medium text-gray-500 mb-1.5">Chọn Model mặc định</label>
+                                                <div className="relative">
+                                                    <select
+                                                        value={selectedModel}
+                                                        onChange={(e) => setSelectedModel(e.target.value)}
+                                                        className="w-full appearance-none px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-sm font-medium text-gray-700 cursor-pointer outline-none"
+                                                    >
+                                                        {GROQ_MODELS.map(model => (
+                                                            <option key={model} value={model}>{getDisplayName(model)}</option>
+                                                        ))}
+                                                    </select>
+                                                    <ChevronDown size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" />
                                                 </div>
                                             </div>
                                         </div>
