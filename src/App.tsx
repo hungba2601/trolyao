@@ -558,7 +558,7 @@ function App() {
 
         {/* Export Button */}
         {messages.length > 0 && (
-          <div className="relative shrink-0">
+          <div className="relative shrink-0 hidden sm:block">
             <button
               onClick={() => setShowExportMenu(!showExportMenu)}
               className="flex items-center gap-1.5 p-1.5 sm:px-3 sm:py-1.5 bg-teal-50 hover:bg-teal-100 text-teal-700 rounded-lg transition-colors text-xs font-medium"
@@ -665,11 +665,11 @@ function App() {
         {/* Install App Button */}
         <button
           onClick={handleInstallClick}
-          className="flex items-center gap-1.5 p-1.5 sm:px-3 sm:py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg transition-colors shrink-0"
+          className="flex items-center gap-1 sm:gap-1.5 p-1.5 sm:px-3 sm:py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg transition-colors shrink-0 border border-blue-100"
           title="Cài đặt ứng dụng"
         >
-          <Smartphone size={16} />
-          <span className="text-xs font-medium hidden sm:inline whitespace-nowrap">Cài App</span>
+          <Smartphone size={14} className="sm:w-4 sm:h-4" />
+          <span className="text-[10px] sm:text-xs font-bold whitespace-nowrap">Cài App</span>
         </button>
 
         {/* Settings / API Key Button */}
