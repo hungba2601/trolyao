@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Plus, MessageCircle, Trash2, BookOpen, Bookmark, Settings, User, Search, Pencil, Check, X, BarChart3, FolderOpen, Pin, HelpCircle } from 'lucide-react';
+import { Plus, MessageCircle, Trash2, BookOpen, Bookmark, Settings, User, Search, Pencil, Check, X, BarChart3, FolderOpen, Pin, HelpCircle, LogOut } from 'lucide-react';
 import type { TeacherProfile, ChatSession } from '../types';
 import { getChatFolders, addChatFolder } from '../services/chatStorage';
 import { downloadUserGuide } from '../services/userGuide';
@@ -34,6 +34,7 @@ interface SidebarProps {
     onFolderFilterChange: (folder: string | null) => void;
     onMoveToFolder?: (chatId: string, folder: string) => void;
     onTogglePin?: (chatId: string) => void;
+    onLogout?: () => void;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
@@ -54,6 +55,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     onFolderFilterChange,
     onMoveToFolder,
     onTogglePin,
+    onLogout,
 }) => {
     const [editingId, setEditingId] = useState<string | null>(null);
     const [editTitle, setEditTitle] = useState('');
@@ -102,12 +104,22 @@ export const Sidebar: React.FC<SidebarProps> = ({
                             {profile?.subject ? `${profile.subject} - ${profile.school_level}` : 'Trực tuyến'}
                         </p>
                     </div>
-                    <button
-                        onClick={onOpenSettings}
-                        className="p-2 text-slate-400 hover:text-teal-600 hover:bg-white rounded-lg transition-all shadow-sm opacity-0 group-hover:opacity-100"
-                    >
-                        <Settings size={18} />
-                    </button>
+                    <div className="flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <button
+                            onClick={onOpenSettings}
+                            className="p-1.5 text-slate-400 hover:text-teal-600 hover:bg-white rounded-lg transition-all shadow-sm"
+                            title="Cài đặt hệ thống"
+                        >
+                            <Settings size={16} />
+                        </button>
+                        <button
+                            onClick={onLogout}
+                            className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-white rounded-lg transition-all shadow-sm"
+                            title="Đăng xuất / Sửa hồ sơ"
+                        >
+                            <LogOut size={16} />
+                        </button>
+                    </div>
                 </div>
             </div>
 
