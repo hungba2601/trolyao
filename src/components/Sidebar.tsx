@@ -92,9 +92,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
     return (
         <aside className="w-80 h-full flex flex-col bg-white/90 border-r border-teal-50/50 backdrop-blur-sm shadow-xl z-20 font-sans">
             {/* Profile Card */}
-            <div className="p-5 border-b border-teal-50/50">
-                <div className="flex items-center gap-3 bg-gradient-to-br from-teal-50 to-white p-3 rounded-2xl border border-teal-100 shadow-sm transition-all hover:shadow-md group">
-                    <div className="w-12 h-12 bg-gradient-to-br from-teal-600 to-cyan-600 rounded-xl flex items-center justify-center text-white font-bold shadow-lg shadow-teal-200">
+            <div className="p-5 border-b border-teal-50/50 dark:border-slate-700/50">
+                <div className="flex items-center gap-3 bg-gradient-to-br from-teal-50 to-white dark:from-slate-800 dark:to-slate-900 p-3 rounded-2xl border border-teal-100 dark:border-slate-700 shadow-sm transition-all hover:shadow-md group">
+                    <div className="w-12 h-12 bg-gradient-to-br from-teal-600 to-cyan-600 dark:from-teal-700 dark:to-cyan-700 rounded-xl flex items-center justify-center text-white font-bold shadow-lg shadow-teal-200 dark:shadow-none">
                         {profile?.name ? profile.name.charAt(0).toUpperCase() : <User size={22} />}
                     </div>
                     <div className="flex-1 min-w-0">
